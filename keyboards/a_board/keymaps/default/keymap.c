@@ -51,8 +51,9 @@ enum a_board_keycodes {
 #define MC_EXIT LALT(KC_F4)      // Close window, ALT + F4.
 #define MC_NTRM LCTL(LSFT(KC_N)) // Open new Terminal.
 
-#define UC_LSTR XP(0x0142, 0x0141) // Polish l, L with a stroke.
-#define UC_BKTK UC(0x0060)         // Backtick (non-dead key).
+// TODO: Create custom unicode map; use XP(0x0142, 0x0141) for upper/lower case.
+#define UC_LSTR UC(0x0142) // Polish l with a stroke.
+#define UC_BKTK UC(0x0060) // Backtick (non-dead key).
 
 
 static enum operating_systems {
@@ -79,7 +80,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_ESC , DE_Q   , DE_W   , DE_E   , DE_R   , DE_T   , DE_Y   , DE_U   , DE_I   , DE_O   , DE_P   , KC_BSPC,
   KC_TAB , DE_A   , DE_S   , DE_D   , LR_NUMS, DE_G   , DE_H   , DE_J   , DE_K   , DE_L   , LR_LEAD, KC_ENT ,
   KC_LSFT, DE_Z   , DE_X   , DE_C   , DE_V   , DE_B   , DE_N   , DE_M   , DE_COMM, DE_DOT , DE_SS  , KC_RSFT,
-  KC_LCTL, KC_LGUI, KC_LALT, LR_FUNC, LR_PNCT, LR_PNCT, KC_SPC , KC_SPC , KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT
+  KC_LCTL, KC_LGUI, KC_LALT, LR_FUNC,     LR_PNCT     ,     KC_SPC      , KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT
 ),
 
 // TODO: Utilize page up/down, R_Shift keys better.
@@ -88,7 +89,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, DE_EXLM, DE_AT,   DE_HASH, DE_DLR,  DE_EURO, UC_BKTK, DE_LCBR, DE_RCBR, DE_UNDS, DE_PLUS, KC_DEL ,
   _______, DE_TILD, DE_BSLS, DE_DQOT, DE_QUOT, DE_DEG , DE_ASTR, DE_LPRN, DE_RPRN, DE_MINS, DE_EQL , _______,
   _______, DE_GRV , DE_AMPR, DE_LBRC, DE_RBRC, DE_CIRC, DE_PIPE, DE_LESS, DE_MORE, DE_PERC, DE_SLSH, _______,
-  _______, _______, _______, _______, _______, _______, KC_DEL,  KC_DEL,  KC_HOME, KC_PGDN, KC_PGUP, KC_END
+  _______, _______, _______, _______,     _______     ,     KC_DEL      , KC_HOME, KC_PGDN, KC_PGUP, KC_END
 ),
 
 // TODO: Use right-hand side for dynamic macros?
@@ -96,43 +97,43 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   MC_EXIT, MC_FIND, MC_GGLE, MC_NTRM, MC_LINK, _______, _______, _______, _______, _______, _______, _______,
   _______, MC_DKRG, MC_DKRG, MC_DLFT, MC_DRGT, _______, _______, _______, _______, _______, _______, _______,
   _______, KC_HOME, KC_END,  MC_MVLF, MC_MVRG, _______, _______, _______, _______, _______, _______, _______,
-  _______, _______, _______, _______, _______, _______, KC_MPLY, KC_MPLY, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT
+  _______, _______, _______, _______,     _______     ,     KC_MPLY     , KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT
 ),
 
 [_NUMS] = LAYOUT(
-  _______, KC_F1,   KC_F2,   KC_F3,   _______, _______, _______, KC_7,    KC_8,    KC_9,    _______, _______,
-  _______, KC_F4,   KC_F5,   KC_F6,   _______, _______, _______, KC_4,    KC_5,    KC_6,    _______, _______,
-  _______, KC_F7,   KC_F8,   KC_F9,   _______, _______, _______, KC_1,    KC_2,    KC_3,    _______, _______,
-  _______, KC_F10,  KC_F11,  KC_F12,  _______, _______, KC_0,    KC_0,    KC_COMM, KC_DOT,  _______, _______
+  _______, KC_F1  , KC_F2  , KC_F3  , _______, _______, _______, KC_7   , KC_8   , KC_9   , _______, _______,
+  _______, KC_F4  , KC_F5  , KC_F6  , _______, _______, _______, KC_4   , KC_5   , KC_6   , _______, _______,
+  _______, KC_F7  , KC_F8  , KC_F9  , _______, _______, _______, KC_1   , KC_2   , KC_3   , _______, _______,
+  _______, KC_F10 , KC_F11 , KC_F12 ,     _______     ,     KC_0        , KC_COMM, KC_DOT , _______, _______
 ),
 
 [_LEADER] = LAYOUT(
   _______, _______, _______, _______, _______, _______, _______, DE_UE  , _______, DE_OE  , _______, _______,
   _______, DE_AE  , DE_SS  , _______, _______, _______, _______, _______, _______, UC_LSTR, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+  _______, _______, _______, _______,     _______     ,     _______     , _______, _______, _______, _______
 ),
 
 [_GAMING] = LAYOUT(
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
   _______, _______, _______, _______, DE_F   , _______, _______, _______, _______, _______, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, LR_BASE,
-  _______, _______, _______, KC_LALT, KC_SPC , KC_SPC , _______, _______, _______, _______, _______, _______
-)
+  _______, _______, _______, KC_LALT,     KC_SPC      ,     _______     , _______, _______, _______, _______
+),
 
 // TODO: Make Q and A more useful.
 [_GAMING_SHOOTER] = LAYOUT(
   _______, _______, DE_Q   , DE_W   , DE_E   , DE_R   , DE_T   , KC_7   , KC_8   , KC_9   , _______, _______,
   _______, _______, DE_A   , DE_S   , DE_D   , DE_F   , DE_G   , KC_4   , KC_5   , KC_6   , _______, _______,
   KC_LCTL, KC_LSFT, DE_Z   , DE_X   , DE_C   , DE_V   , DE_B   , KC_1   , KC_2   , KC_3   , _______, LR_BASE,
-  _______, _______, _______, KC_LALT, KC_SPC , KC_SPC , _______, _______, _______, _______, _______, _______
-)
+  _______, _______, _______, KC_LALT,     KC_SPC      ,     _______     , _______, _______, _______, _______
+),
 
 [_ADJUST] = LAYOUT(
   _______, _______, OS_WIN , _______, _______, _______, _______, _______, _______, _______, _______, _______,
   _______, _______, LR_SHTR, _______, _______, LR_GMNG, _______, _______, _______, OS_LNX , _______, _______,
   _______, _______, _______, OS_COS , _______, LR_BASE, _______, _______, _______, _______, _______, _______,
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+  _______, _______, _______, _______,     _______     ,     _______     , _______, _______, _______, _______
 ),
 
 };

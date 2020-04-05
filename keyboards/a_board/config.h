@@ -6,8 +6,9 @@
 // USB Device descriptor parameter
 #define VENDOR_ID       0x0001  // Doesn't matter.
 #define PRODUCT_ID      0x0001  // Doesn't matter.
+#define DEVICE_VER      0x0001
 #define MANUFACTURER    Anni
-#define PRODUCT         A_Board
+#define PRODUCT         A-Board
 #define DESCRIPTION     A 13x4 ortholinear board
 
 // key matrix size
