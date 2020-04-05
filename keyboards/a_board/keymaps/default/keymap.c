@@ -15,8 +15,8 @@ enum a_board_layers {
   _NUMS,
   _LEADER,
   _ADJUST,
-	_GAMING,
-	_GAMING_SHOOTER,
+  _GAMING,
+  _GAMING_SHOOTER,
 };
 
 enum a_board_keycodes {
@@ -32,7 +32,7 @@ enum a_board_keycodes {
   OS_WIN, // Windows.
 
   // Macros
-	MC_FIND, // Find selection in page (Ctrl+C Ctrl+F Ctrl+V).
+  MC_FIND, // Find selection in page (Ctrl+C Ctrl+F Ctrl+V).
   MC_GGLE, // Google for current selection (Ctrl+C Ctrl+L Ctrl+V Enter).
   MC_LINK, // Link what is currently highlighted (Ctrl+C Ctrl+K Ctrl+V Enter).
   MC_DKLF, // Dock window left.
@@ -210,47 +210,47 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return false;
 
     // Custom actions
-		case MC_GGLE:
-			if (record->event.pressed) {
-				SEND_STRING(SS_LCTRL("c") SS_LCTRL("t") SS_LCTRL("v") SS_TAP(X_ENTER));
-			}
-			return false;
-		case MC_FIND:
-			if (record->event.pressed) {
-				SEND_STRING(SS_LCTRL("c") SS_LCTRL("f") SS_LCTRL("v"));
-			}
-			return false;
-		case MC_LINK:
-			if (record->event.pressed) {
-				SEND_STRING(SS_LCTRL("c") SS_LCTRL("k") SS_LCTRL("v"));
-			}
-			return false;
+    case MC_GGLE:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTRL("c") SS_LCTRL("t") SS_LCTRL("v") SS_TAP(X_ENTER));
+      }
+      return false;
+    case MC_FIND:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTRL("c") SS_LCTRL("f") SS_LCTRL("v"));
+      }
+      return false;
+    case MC_LINK:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTRL("c") SS_LCTRL("k") SS_LCTRL("v"));
+      }
+      return false;
 
     // Layers
     case LR_BASE:
       if (record->event.pressed) {
-				layer_off(_FUNC);
-				layer_off(_PNCT);
-				layer_off(_ADJUST);
-				set_single_persistent_default_layer(_BASE);
+        layer_off(_FUNC);
+        layer_off(_PNCT);
+        layer_off(_ADJUST);
+        set_single_persistent_default_layer(_BASE);
       }
       return false;
-		case LR_GMNG:
-			if (record->event.pressed) {
-				layer_off(_FUNC);
-				layer_off(_PNCT);
-				layer_off(_ADJUST);
-				set_single_persistent_default_layer(_GAMING);
-			}
-			return false;
-		case LR_SHTR:
-			if (record->event.pressed) {
-				layer_off(_FUNC);
-				layer_off(_PNCT);
-				layer_off(_ADJUST);
-				set_single_persistent_default_layer(_GAMING_SHOOTER);
-			}
-			return false;
+    case LR_GMNG:
+      if (record->event.pressed) {
+        layer_off(_FUNC);
+        layer_off(_PNCT);
+        layer_off(_ADJUST);
+        set_single_persistent_default_layer(_GAMING);
+      }
+      return false;
+    case LR_SHTR:
+      if (record->event.pressed) {
+        layer_off(_FUNC);
+        layer_off(_PNCT);
+        layer_off(_ADJUST);
+        set_single_persistent_default_layer(_GAMING_SHOOTER);
+      }
+      return false;
 
     // OS selection
     case OS_LNX:
