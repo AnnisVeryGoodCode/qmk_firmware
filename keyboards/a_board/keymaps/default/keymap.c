@@ -17,12 +17,15 @@ enum a_board_layers {
   _ADJUST,
   _GAMING,
   _GAMING_SHOOTER,
+  _GAMING_AOE,
+  _GAMING_AOE1,
 };
 
 enum a_board_keycodes {
   // Layer
   LR_BASE = SAFE_RANGE,
   LR_GMNG,
+  LR_AOE,
   LR_SHTR,
   LR_ADJT,
 
@@ -69,6 +72,7 @@ static enum operating_systems {
 #define LR_PNCT  MO(_PNCT)
 #define LR_FUNC  MO(_FUNC)
 #define LR_FNCR  MO(_FUNC_CR)
+#define LR_AOE1  MO(_GAMING_AOE1)
 #define LR_NUMS  LT(_NUMS, DE_F)
 #define LR_LEAD OSL(_LEADER)
 
@@ -121,6 +125,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, _______, _______, KC_LALT,     KC_SPC      ,     _______     , _______, _______, _______, _______
 ),
 
+[_GAMING_AOE] = LAYOUT(
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+  _______, _______, _______, _______, DE_F   , _______, _______, _______, _______, _______, _______, _______,
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, LR_BASE,
+  _______, _______, _______, KC_LCTL,     LR_AOE1     ,     _______     , _______, _______, _______, _______
+),
+[_GAMING_AOE1] = LAYOUT(
+  _______, _______, KC_7   , KC_8   , KC_9   , _______, _______, _______, _______, _______, _______, _______,
+  _______, _______, KC_4   , KC_5   , KC_6   , _______, _______, _______, _______, _______, _______, _______,
+  _______, _______, KC_1   , KC_2   , KC_3   , _______, _______, _______, _______, _______, _______, _______,
+  _______, _______, _______, _______,     _______     ,     _______      , _______, _______, _______, _______
+),
+
 // TODO: Make Q and A more useful.
 [_GAMING_SHOOTER] = LAYOUT(
   _______, _______, DE_Q   , DE_W   , DE_E   , DE_R   , DE_T   , KC_7   , KC_8   , KC_9   , _______, _______,
@@ -131,7 +148,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_ADJUST] = LAYOUT(
   _______, _______, OS_WIN , _______, _______, _______, _______, _______, _______, _______, _______, _______,
-  _______, _______, LR_SHTR, _______, _______, LR_GMNG, _______, _______, _______, OS_LNX , _______, _______,
+  _______, LR_AOE , LR_SHTR, _______, _______, LR_GMNG, _______, _______, _______, OS_LNX , _______, _______,
   _______, _______, _______, OS_COS , _______, LR_BASE, _______, _______, _______, _______, _______, _______,
   _______, _______, _______, _______,     _______     ,     _______     , _______, _______, _______, _______
 ),
@@ -156,7 +173,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         switch (os) {
           case LINUX:     SEND_STRING(SS_LCTRL(SS_LALT(SS_TAP(X_LEFT)))); break;
           case WINDOWS:   SEND_STRING(SS_LCTRL(SS_LGUI(SS_TAP(X_LEFT)))); break;
-          case CHROME_OS: SEND_STRING(SS_LGUI("ß")); break;
+          case CHROME_OS: SEND_STRING(SS_LCTRL(SS_LSFT(" ")) SS_DELAY(5) SS_LGUI("[") SS_DELAY(5) SS_LCTRL(SS_LSFT(" "))); break;
           default: return false;
         }
       }
@@ -166,7 +183,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         switch (os) {
           case LINUX:     SEND_STRING(SS_LCTRL(SS_LALT(SS_TAP(X_LEFT)))); break;
           case WINDOWS:   SEND_STRING(SS_LCTRL(SS_LGUI(SS_TAP(X_LEFT)))); break;
-          case CHROME_OS: SEND_STRING(SS_LCTRL(SS_LSFT(" ")) SS_DELAY(5) SS_LGUI("]") SS_DELAY(200) SS_LCTRL(SS_LSFT(" "))); break;
+          case CHROME_OS: SEND_STRING(SS_LCTRL(SS_LSFT(" ")) SS_DELAY(5) SS_LGUI("]") SS_DELAY(5) SS_LCTRL(SS_LSFT(" "))); break;
           default: return false;
         }
       }
@@ -176,14 +193,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case MC_MVLF:
       if (record->event.pressed) {
         if (os == CHROME_OS) {
-          SEND_STRING(SS_LSFT(SS_LGUI("ß")));
+          SEND_STRING(SS_LCTRL(SS_LSFT(" ")) SS_DELAY(5) SS_LSFT(SS_LGUI("[")) SS_DELAY(5) SS_LCTRL(SS_LSFT(" ")));
         }
       }
       return false;
     case MC_MVRG:
       if (record->event.pressed) {
         if (os == CHROME_OS) {
-          SEND_STRING(SS_LCTRL(SS_LSFT(" ")) SS_DELAY(5) SS_LSFT(SS_LGUI("]")) SS_DELAY(200) SS_LCTRL(SS_LSFT(" ")));
+          SEND_STRING(SS_LCTRL(SS_LSFT(" ")) SS_DELAY(5) SS_LSFT(SS_LGUI("]")) SS_DELAY(5) SS_LCTRL(SS_LSFT(" ")));
         }
       }
       return false;
@@ -244,6 +261,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         set_single_persistent_default_layer(_GAMING);
       }
       return false;
+    case LR_AOE:
+      if (record->event.pressed) {
+        layer_off(_FUNC);
+        layer_off(_PNCT);
+        layer_off(_ADJUST);
+        set_single_persistent_default_layer(_GAMING_AOE);
+      }
+      return false;
     case LR_SHTR:
       if (record->event.pressed) {
         layer_off(_FUNC);
@@ -255,13 +280,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     // OS selection
     case OS_LNX:
-      if (record->event.pressed) os = LINUX;
+      if (record->event.pressed) {
+        os = LINUX;
+        set_unicode_input_mode(UC_LNX);
+      }
       return false;
     case OS_WIN:
-      if (record->event.pressed) os = WINDOWS;
+      if (record->event.pressed) {
+        os = WINDOWS;
+        // Note: Requires WinCompose.
+        set_unicode_input_mode(UC_WINC);
+      }
       return false;
     case OS_COS:
-      if (record->event.pressed) os = CHROME_OS;
+      if (record->event.pressed) {
+        os = CHROME_OS;
+        set_unicode_input_mode(UC_LNX);
+      }
       return false;
   }
 
