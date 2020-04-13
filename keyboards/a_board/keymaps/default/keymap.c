@@ -211,7 +211,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         switch (os) {
           case LINUX:
           case WINDOWS:   SEND_STRING(SS_LGUI(SS_TAP(X_LEFT))); break;
-          case CHROME_OS: SEND_STRING(SS_LALT("ß")); break;
+          case CHROME_OS: SEND_STRING(SS_LCTRL(SS_LSFT(" ")) SS_DELAY(5) SS_LALT("[") SS_DELAY(5) SS_LCTRL(SS_LSFT(" "))); break;
           default: return false;
         }
       }
@@ -221,21 +221,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         switch (os) {
           case LINUX:
           case WINDOWS:   SEND_STRING(SS_LGUI(SS_TAP(X_RGHT))); break;
-          case CHROME_OS: SEND_STRING(SS_LCTRL(SS_LSFT(" ")) SS_DELAY(5) SS_LALT("]") SS_DELAY(200) SS_LCTRL(SS_LSFT(" "))); break;
+          case CHROME_OS: SEND_STRING(SS_LCTRL(SS_LSFT(" ")) SS_DELAY(5) SS_LALT("]") SS_DELAY(5) SS_LCTRL(SS_LSFT(" "))); break;
           default: return false;
         }
       }
       return false;
 
     // Custom actions
+    // TODO: Revisit whether delays help for MC_FIND.
     case MC_GGLE:
       if (record->event.pressed) {
-        SEND_STRING(SS_LCTRL("c") SS_LCTRL("t") SS_LCTRL("v") SS_TAP(X_ENTER));
+        SEND_STRING(SS_LCTRL("c") SS_DELAY(5) SS_LCTRL("t") SS_DELAY(5) SS_LCTRL("v") SS_TAP(X_ENTER));
       }
       return false;
     case MC_FIND:
       if (record->event.pressed) {
-        SEND_STRING(SS_LCTRL("c") SS_LCTRL("f") SS_LCTRL("v"));
+        SEND_STRING(SS_LCTRL("c") SS_DELAY(5) SS_LCTRL("f") SS_DELAY(5) SS_LCTRL("v"));
       }
       return false;
     case MC_LINK:
