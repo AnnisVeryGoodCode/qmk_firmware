@@ -92,7 +92,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // TODO: Use right-hand side for dynamic macros?
 [_FUNC] = LAYOUT_planck_2x2u(
   MC_EXIT, MC_FIND, MC_GGLE, MC_NTRM, MC_LINK, _______, _______, _______, _______, _______, _______, _______,
-  _______, MC_DKRG, MC_DKRG, MC_DLFT, MC_DRGT, _______, _______, _______, _______, _______, _______, _______,
+  _______, MC_DKLF, MC_DKRG, MC_DLFT, MC_DRGT, _______, _______, _______, _______, _______, _______, _______,
   _______, KC_HOME, KC_END,  MC_MVLF, MC_MVRG, _______, _______, _______, _______, _______, _______, _______,
   _______, _______, _______, _______,     _______     ,     KC_MPLY     , KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT
 ),
@@ -174,8 +174,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case MC_DRGT:
       if (record->event.pressed) {
         switch (os) {
-          case LINUX:     SEND_STRING(SS_LCTRL(SS_LALT(SS_TAP(X_LEFT)))); break;
-          case WINDOWS:   SEND_STRING(SS_LCTRL(SS_LGUI(SS_TAP(X_LEFT)))); break;
+          case LINUX:     SEND_STRING(SS_LCTRL(SS_LALT(SS_TAP(X_RGHT)))); break;
+          case WINDOWS:   SEND_STRING(SS_LCTRL(SS_LGUI(SS_TAP(X_RGHT)))); break;
           case CHROME_OS: SEND_STRING(SS_LCTRL(SS_LSFT(" ")) SS_DELAY(5) SS_LGUI("]") SS_DELAY(5) SS_LCTRL(SS_LSFT(" "))); break;
           default: return false;
         }
