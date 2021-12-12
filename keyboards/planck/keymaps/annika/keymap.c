@@ -307,7 +307,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case AP_RSLV:
       // Cycle through the options. For many app modes in the future, might want to use individual buttons.
       if (record->event.pressed) {
-        app_mode = (app_mode + 1) % NUMBER_OF_OPTIONS
+        app_mode = (app_mode + 1) % NUMBER_OF_OPTIONS;
       }
       return false;
   }
