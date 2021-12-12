@@ -1,12 +1,7 @@
-// #include "action_layer.h"
-// #include "eeconfig.h"
-
 #include QMK_KEYBOARD_H
+#include "muse.h"
 
-#include "muse.h" // TODO: Remove? Music?
 #include "keymap_extras/keymap_german.h"
-
-// extern keymap_config_t keymap_config;
 
 enum a_board_layers {
   // Layer
@@ -34,9 +29,6 @@ enum a_board_keycodes {
   OS_COS, // Chrome OS.
   OS_LNX, // Linux.
   OS_WIN, // Windows.
-
-  // App Mode Selection.
-  AP_RSLV,
 
   // Macros
   MC_FIND, // Find selection in page (Ctrl+C Ctrl+F Ctrl+V).
@@ -67,12 +59,6 @@ static enum operating_systems {
   WINDOWS,
 } os;
 
-static enum application_mode {
-  DEFAULT,
-  RESOLVE,
-  NUMBER_OF_OPTIONS,
-} app_mode;
-
 // Layers
 #define LR_PNCT  MO(_PNCT)
 #define LR_FUNC  MO(_FUNC)
@@ -84,73 +70,80 @@ static enum application_mode {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-[_BASE] = LAYOUT_planck_2x2u(
+[_BASE] = LAYOUT_preonic_2x2u(
+  KC_ENT , DM_REC1, DM_REC2, KC_PSCR, KC_4   , KC_5   , KC_6   , KC_7   , KC_8   , KC_9   , KC_0   , KC_DEL ,
   KC_ESC , DE_Q   , DE_W   , DE_E   , DE_R   , DE_T   , DE_Z   , DE_U   , DE_I   , DE_O   , DE_P   , KC_BSPC,
   KC_TAB , DE_A   , DE_S   , DE_D   , LR_NUMS, DE_G   , DE_H   , DE_J   , DE_K   , DE_L   , LR_LEAD, KC_ENT ,
   KC_LSFT, DE_Y   , DE_X   , DE_C   , DE_V   , DE_B   , DE_N   , DE_M   , DE_COMM, DE_DOT , DE_SS  , KC_RSFT,
   KC_LCTL, KC_LGUI, KC_LALT, LR_FUNC,     LR_PNCT     ,     KC_SPC      , KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT
 ),
 
-// TODO: Utilize page up/down, R_Shift keys better.
-// TODO: Bottom left key.
-[_PNCT] = LAYOUT_planck_2x2u(
-  KC_ENT , DE_EXLM, DE_AT,   DE_HASH, DE_DLR,  DE_EURO, UC_BKTK, DE_LCBR, DE_RCBR, DE_UNDS, DE_PLUS, KC_DEL ,
+[_PNCT] = LAYOUT_preonic_2x2u(
+  _______, DM_PLY1, DM_PLY2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  _______,
+  _______, DE_EXLM, DE_AT,   DE_HASH, DE_DLR,  DE_EURO, UC_BKTK, DE_LCBR, DE_RCBR, DE_UNDS, DE_PLUS, KC_DEL ,
   _______, DE_TILD, DE_BSLS, DE_DQOT, DE_QUOT, DE_DEG , DE_ASTR, DE_LPRN, DE_RPRN, DE_MINS, DE_EQL , _______,
   _______, DE_GRV , DE_AMPR, DE_LBRC, DE_RBRC, DE_CIRC, DE_PIPE, DE_LESS, DE_MORE, DE_PERC, DE_SLSH, _______,
   _______, _______, _______, _______,     _______     ,     KC_DEL      , KC_HOME, KC_PGDN, KC_PGUP, KC_END
 ),
 
-// TODO: Use right-hand side for dynamic macros?
-[_FUNC] = LAYOUT_planck_2x2u(
+[_FUNC] = LAYOUT_preonic_2x2u(
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
   MC_EXIT, MC_FIND, MC_GGLE, MC_NTRM, MC_LINK, _______, _______, _______, _______, _______, _______, _______,
   _______, MC_DKLF, MC_DKRG, MC_DLFT, MC_DRGT, _______, _______, _______, _______, _______, _______, _______,
-  _______, KC_HOME, KC_END,  MC_BACK, MC_FWD , _______, _______, _______, _______, _______, _______, _______,
+  _______, KC_HOME, KC_END , MC_BACK, MC_FWD , _______, _______, _______, _______, _______, _______, _______,
   _______, _______, _______, _______,     _______     ,     KC_MPLY     , KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT
 ),
 
-[_NUMS] = LAYOUT_planck_2x2u(
+[_NUMS] = LAYOUT_preonic_2x2u(
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
   _______, KC_F1  , KC_F2  , KC_F3  , _______, _______, _______, KC_7   , KC_8   , KC_9   , _______, _______,
   _______, KC_F4  , KC_F5  , KC_F6  , _______, _______, _______, KC_4   , KC_5   , KC_6   , _______, _______,
   _______, KC_F7  , KC_F8  , KC_F9  , _______, _______, _______, KC_1   , KC_2   , KC_3   , _______, _______,
   _______, KC_F10 , KC_F11 , KC_F12 ,     _______     ,     KC_0        , KC_COMM, KC_DOT , _______, _______
 ),
 
-[_LEADER] = LAYOUT_planck_2x2u(
-  _______, _______, _______, _______, _______, _______, _______, DE_UE  , _______, DE_OE  , _______, _______,
-  _______, DE_AE  , DE_SS  , _______, _______, _______, _______, _______, _______, UC_LSTR, _______, _______,
+[_LEADER] = LAYOUT_preonic_2x2u(
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+  _______, _______, _______, _______, _______, _______, _______, DE_UDIA, _______, DE_ODIA, _______, _______,
+  _______, DE_ADIA, DE_SS  , _______, _______, _______, _______, _______, _______, UC_LSTR, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
   _______, _______, _______, _______,     _______     ,     _______     , _______, _______, _______, _______
 ),
 
-[_GAMING] = LAYOUT_planck_2x2u(
+[_GAMING] = LAYOUT_preonic_2x2u(
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-  _______, _______, _______, _______, DE_F   , _______, _______, _______, _______, _______, LR_NUMS, _______,
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+  _______, _______, _______, _______, DE_F   , _______, _______, _______, _______, _______, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, LR_BASE,
   _______, _______, _______, KC_LALT,     KC_SPC      ,     _______     , _______, _______, _______, _______
 ),
 
-[_GAMING_AOE] = LAYOUT_planck_2x2u(
+[_GAMING_AOE] = LAYOUT_preonic_2x2u(
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
   _______, _______, _______, _______, DE_F   , _______, _______, _______, _______, _______, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, LR_BASE,
   _______, _______, _______, KC_LCTL,     LR_AOE1     ,     _______     , _______, _______, _______, _______
 ),
-[_GAMING_AOE1] = LAYOUT_planck_2x2u(
+[_GAMING_AOE1] = LAYOUT_preonic_2x2u(
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
   _______, _______, KC_7   , KC_8   , KC_9   , _______, _______, _______, _______, _______, _______, _______,
   _______, _______, KC_4   , KC_5   , KC_6   , _______, _______, _______, _______, _______, _______, _______,
   _______, _______, KC_1   , KC_2   , KC_3   , _______, _______, _______, _______, _______, _______, _______,
-  _______, _______, _______, _______,     _______     ,     _______      , _______, _______, _______, _______
+  _______, _______, _______, _______,     _______     ,     _______     , _______, _______, _______, _______
 ),
 
-[_GAMING_SHOOTER] = LAYOUT_planck_2x2u(
-  _______, _______, DE_Q   , DE_W   , DE_E   , DE_R   , DE_T   , KC_7   , KC_8   , KC_9   , _______, _______,
-  _______, _______, DE_A   , DE_S   , DE_D   , DE_F   , DE_G   , KC_4   , KC_5   , KC_6   , _______, _______,
-  KC_LCTL, KC_LSFT, DE_Z   , DE_X   , DE_C   , DE_V   , DE_B   , KC_1   , KC_2   , KC_3   , _______, LR_BASE,
+[_GAMING_SHOOTER] = LAYOUT_preonic_2x2u(
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+  _______, _______, DE_Q   , DE_W   , DE_E   , DE_R   , DE_T   , DE_Z   , DE_U   , DE_I   , DE_O   , _______,
+  _______, _______, DE_A   , DE_S   , DE_D   , DE_F   , DE_G   , DE_H   , DE_J   , DE_K   , DE_L   , _______,
+  KC_LCTL, KC_LSFT, DE_Z   , DE_X   , DE_C   , DE_V   , DE_B   , DE_N   , DE_M   , DE_COMM, DE_DOT , LR_BASE,
   _______, _______, _______, KC_LALT,     KC_SPC      ,     _______     , _______, _______, _______, _______
 ),
 
-[_ADJUST] = LAYOUT_planck_2x2u(
-  _______, _______, OS_WIN , _______, AP_RSLV, _______, _______, _______, _______, _______, _______, _______,
+[_ADJUST] = LAYOUT_preonic_2x2u(
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+  _______, _______, OS_WIN , _______, _______, _______, _______, _______, _______, _______, _______, _______,
   _______, LR_AOE , LR_SHTR, _______, _______, LR_GMNG, _______, _______, _______, OS_LNX , _______, _______,
   _______, _______, _______, OS_COS , _______, LR_BASE, _______, _______, _______, _______, _______, _______,
   _______, _______, _______, _______,     _______     ,     _______     , _______, _______, _______, _______
@@ -163,6 +156,32 @@ layer_state_t layer_state_set_user(layer_state_t state) {
   // to provide a layer-specific way to switch back to the BASE layer.
   return update_tri_layer_state(state, _FUNC, _PNCT, _ADJUST);
 }
+
+// LEADER_EXTERNS();
+
+// void matrix_scan_user(void) {
+//   LEADER_DICTIONARY() {
+//     leading = false;
+//     leader_end();
+
+//     SEQ_ONE_KEY(DE_A) {
+//       register_code(DE_ADIA);
+//       unregister_code(DE_ADIA);
+//     }
+//     SEQ_ONE_KEY(DE_U) {
+//       register_code(DE_UDIA);
+//       unregister_code(DE_UDIA);
+//     }
+//     SEQ_ONE_KEY(DE_O) {
+//       register_code(DE_ODIA);
+//       unregister_code(DE_ODIA);
+//     }
+//     SEQ_ONE_KEY(DE_S) {
+//       register_code(DE_SS);
+//       unregister_code(DE_SS);
+//     }
+//   }
+// }
 
 // Executes before usual QMK key event handling. On returning false, QMK will
 // skip the normal key event handling.
@@ -192,6 +211,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
 
+    // Move window to desktop on the left/right (Chrome OS only).
+    // case MC_MVLF:
+    //   if (record->event.pressed) {
+    //     if (os == CHROME_OS) {
+    //       SEND_STRING(SS_LCTRL(SS_LSFT(" ")) SS_DELAY(5) SS_LSFT(SS_LGUI("[")) SS_DELAY(5) SS_LCTRL(SS_LSFT(" ")));
+    //     }
+    //   }
+    //   return false;
+    // case MC_MVRG:
+    //   if (record->event.pressed) {
+    //     if (os == CHROME_OS) {
+    //       SEND_STRING(SS_LCTRL(SS_LSFT(" ")) SS_DELAY(5) SS_LSFT(SS_LGUI("]")) SS_DELAY(5) SS_LCTRL(SS_LSFT(" ")));
+    //     }
+    //   }
+    //   return false;
+
     // For some reason, I need to switch out y and z???
     case MC_BACK:
       if (record->event.pressed) {
@@ -200,11 +235,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return false;
     case MC_FWD:
       if (record->event.pressed) {
-        if (app_mode == RESOLVE) {
-          SEND_STRING(SS_LCTRL(SS_LSFT("y")));
-        } else {
-          SEND_STRING(SS_LCTRL("z"));
-        }
+        SEND_STRING(SS_LCTRL("z"));
       }
       return false;
 
@@ -302,14 +333,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         set_unicode_input_mode(UC_LNX);
       }
       return false;
-
-    // App selection.
-    case AP_RSLV:
-      // Cycle through the options. For many app modes in the future, might want to use individual buttons.
-      if (record->event.pressed) {
-        app_mode = (app_mode + 1) % NUMBER_OF_OPTIONS
-      }
-      return false;
   }
 
   return true;
@@ -318,40 +341,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // Templates
 
 /*
-[TODO] = LAYOUT_planck_2x2u(
+[TODO] = LAYOUT_preonic_2x2u(
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 ),
-*/
-
-/*
-    case TODO:
-      if (record->event.pressed) {
-        switch (os) {
-          case LINUX:     TODO
-          case WINDOWS:   TODO
-          case CHROME_OS: TODO
-          default: return false;
-        }
-      }
-      return false;
-
-    // Move window to desktop on the left/right (Chrome OS only).
-    case MC_MVLF:
-      if (record->event.pressed) {
-        if (os == CHROME_OS) {
-          SEND_STRING(SS_LCTRL(SS_LSFT(" ")) SS_DELAY(5) SS_LSFT(SS_LGUI("[")) SS_DELAY(5) SS_LCTRL(SS_LSFT(" ")));
-        }
-      }
-      return false;
-    case MC_MVRG:
-      if (record->event.pressed) {
-        if (os == CHROME_OS) {
-          SEND_STRING(SS_LCTRL(SS_LSFT(" ")) SS_DELAY(5) SS_LSFT(SS_LGUI("]")) SS_DELAY(5) SS_LCTRL(SS_LSFT(" ")));
-        }
-      }
-      return false;
-
 */
