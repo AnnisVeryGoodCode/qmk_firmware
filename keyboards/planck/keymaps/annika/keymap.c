@@ -50,6 +50,9 @@ enum a_board_keycodes {
   // MC_MVRG, // Move window to virtual desktop on the right.
   MC_BACK, // CTRL Z
   MC_FWD,  // CTRL Y
+
+  MC_GRV,  // `
+  MC_DACH,  // ^
 };
 
 // Remaps (similar to macros)
@@ -65,6 +68,7 @@ static enum operating_systems {
   LINUX,
   CHROME_OS,
   WINDOWS,
+  MAC_OS,
 } os;
 
 static enum application_mode {
@@ -94,9 +98,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // TODO: Utilize page up/down, R_Shift keys better.
 // TODO: Bottom left key.
 [_PNCT] = LAYOUT_planck_2x2u(
-  KC_ENT , DE_EXLM, DE_AT,   DE_HASH, DE_DLR,  DE_EURO, UC_BKTK, DE_LCBR, DE_RCBR, DE_UNDS, DE_PLUS, KC_DEL ,
+  KC_ENT , DE_EXLM, DE_AT,   DE_HASH, DE_DLR,  DE_EURO, MC_GRV , DE_LCBR, DE_RCBR, DE_UNDS, DE_PLUS, KC_DEL ,
   _______, DE_TILD, DE_BSLS, DE_DQOT, DE_QUOT, DE_DEG , DE_ASTR, DE_LPRN, DE_RPRN, DE_MINS, DE_EQL , _______,
-  _______, DE_GRV , DE_AMPR, DE_LBRC, DE_RBRC, DE_CIRC, DE_PIPE, DE_LESS, DE_MORE, DE_PERC, DE_SLSH, _______,
+  _______, DE_GRV , DE_AMPR, DE_LBRC, DE_RBRC, MC_DACH, DE_PIPE, DE_LESS, DE_MORE, DE_PERC, DE_SLSH, _______,
   _______, _______, _______, _______,     _______     ,     KC_DEL      , KC_HOME, KC_PGDN, KC_PGUP, KC_END
 ),
 
@@ -152,7 +156,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_ADJUST] = LAYOUT_planck_2x2u(
   _______, _______, OS_WIN , _______, AP_RSLV, _______, _______, _______, _______, _______, _______, _______,
   _______, LR_AOE , LR_SHTR, _______, _______, LR_GMNG, _______, _______, _______, OS_LNX , _______, _______,
-  _______, _______, _______, OS_COS , _______, LR_BASE, _______, _______, _______, _______, _______, _______,
+  _______, _______, _______, OS_COS , _______, LR_BASE, _______, OS_MAC , _______, _______, _______, _______,
   _______, _______, _______, _______,     _______     ,     _______     , _______, _______, _______, _______
 ),
 
@@ -230,6 +234,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
 
+    // Fix dead keys.
+    //
+    // + in US layout is where ` is on German keyboard (upper right corner, left to backspace).
+    // ` in US layout is where ^ is on German keyboard (upper left corner, right to number row). 
+    // Append <space> to avoid dead key behavior.
+    case MC_GRV:
+      if (record->event.pressed) {
+        SEND_STRING("+ ");
+      }
+      return false;
+    case MC_DACH:
+      if (record->event.pressed) {
+        SEND_STRING("` ");
+      }
+      return false;
+
     // Custom actions
     // TODO: Revisit whether delays help for MC_FIND.
     case MC_GGLE:
@@ -300,6 +320,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         os = CHROME_OS;
         set_unicode_input_mode(UC_LNX);
+      }
+      return false;
+    case OS_MAC:
+      if (record->event.pressed) {
+        os = MAC_OS;
+        set_unicode_input_mode(UC_MAC);
       }
       return false;
 
