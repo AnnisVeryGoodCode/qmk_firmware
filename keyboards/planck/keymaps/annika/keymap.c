@@ -34,6 +34,7 @@ enum a_board_keycodes {
   OS_COS, // Chrome OS.
   OS_LNX, // Linux.
   OS_WIN, // Windows.
+  OS_MAC, // MAC OS.
 
   // App Mode Selection.
   AP_RSLV,
@@ -99,8 +100,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // TODO: Bottom left key.
 [_PNCT] = LAYOUT_planck_2x2u(
   KC_ENT , DE_EXLM, DE_AT,   DE_HASH, DE_DLR,  DE_EURO, MC_GRV , DE_LCBR, DE_RCBR, DE_UNDS, DE_PLUS, KC_DEL ,
-  _______, DE_TILD, DE_BSLS, DE_DQOT, DE_QUOT, DE_DEG , DE_ASTR, DE_LPRN, DE_RPRN, DE_MINS, DE_EQL , _______,
-  _______, DE_GRV , DE_AMPR, DE_LBRC, DE_RBRC, MC_DACH, DE_PIPE, DE_LESS, DE_MORE, DE_PERC, DE_SLSH, _______,
+  _______, DE_TILD, DE_BSLS, DE_DQUO, DE_QUOT, DE_DEG , DE_ASTR, DE_LPRN, DE_RPRN, DE_MINS, DE_EQL , _______,
+  _______, DE_DEG , DE_AMPR, DE_LBRC, DE_RBRC, MC_DACH, DE_PIPE, DE_LABK, DE_RABK, DE_PERC, DE_SLSH, _______,
   _______, _______, _______, _______,     _______     ,     KC_DEL      , KC_HOME, KC_PGDN, KC_PGUP, KC_END
 ),
 
@@ -120,8 +121,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 [_LEADER] = LAYOUT_planck_2x2u(
-  _______, _______, _______, _______, _______, _______, _______, DE_UE  , _______, DE_OE  , _______, _______,
-  _______, DE_AE  , DE_SS  , _______, _______, _______, _______, _______, _______, UC_LSTR, _______, _______,
+  _______, _______, _______, _______, _______, _______, _______, DE_UDIA, _______, DE_ODIA, _______, _______,
+  _______, DE_ADIA, DE_SS  , _______, _______, _______, _______, _______, _______, UC_LSTR, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
   _______, _______, _______, _______,     _______     ,     _______     , _______, _______, _______, _______
 ),
